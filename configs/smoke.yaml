@@ -1,0 +1,35 @@
+# Tiny end-to-end run on CPU (~1-2 min) to verify the whole pipeline works. NOT for real results.
+seed: 13
+labels: [negative, neutral, positive]
+data:
+  processed_dir: data/smoke
+  sources:
+    - name: sample_en
+      local_path: tests/fixtures/sample_en.csv
+      language: en
+      label_map: {negative: negative, neutral: neutral, positive: positive}
+    - name: sample_ur
+      local_path: tests/fixtures/sample_ur.csv
+      language: ur
+      label_map: {negative: negative, neutral: neutral, positive: positive}
+    - name: sample_roman_ur
+      local_path: tests/fixtures/sample_roman_ur.csv
+      language: ur-Latn
+      label_map: {negative: negative, neutral: neutral, positive: positive}
+model:
+  name: hf-internal-testing/tiny-xlm-roberta
+  max_length: 64
+training:
+  output_dir: artifacts/smoke
+  epochs: 2
+  learning_rate: 1.0e-3
+  train_batch_size: 8
+  eval_batch_size: 16
+  eval_steps: 5
+  logging_steps: 5
+analysis:
+  output_dir: reports/smoke_analysis
+  top_k_examples: 5
+serving:
+  device: cpu
+  quantize_cpu: false

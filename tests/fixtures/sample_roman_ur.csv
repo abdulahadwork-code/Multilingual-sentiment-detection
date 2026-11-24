@@ -1,0 +1,73 @@
+text,label
+yeh phone bohat acha hai,positive
+yeh service bohat acha hai,positive
+yeh movie bohat acha hai,positive
+yeh restaurant bohat acha hai,positive
+naya update bohat acha hai,positive
+mera order bohat acha hai,positive
+yeh phone zabardast hai yaar,positive
+yeh service zabardast hai yaar,positive
+yeh movie zabardast hai yaar,positive
+yeh restaurant zabardast hai yaar,positive
+naya update zabardast hai yaar,positive
+mera order zabardast hai yaar,positive
+yeh phone mujhe bahut pasand aya,positive
+yeh service mujhe bahut pasand aya,positive
+yeh movie mujhe bahut pasand aya,positive
+yeh restaurant mujhe bahut pasand aya,positive
+naya update mujhe bahut pasand aya,positive
+mera order mujhe bahut pasand aya,positive
+yeh phone kya baat hai,positive
+yeh service kya baat hai,positive
+yeh movie kya baat hai,positive
+yeh restaurant kya baat hai,positive
+naya update kya baat hai,positive
+mera order kya baat hai,positive
+yeh phone bilkul bakwas hai,negative
+yeh service bilkul bakwas hai,negative
+yeh movie bilkul bakwas hai,negative
+yeh restaurant bilkul bakwas hai,negative
+naya update bilkul bakwas hai,negative
+mera order bilkul bakwas hai,negative
+yeh phone bohat bura hai,negative
+yeh service bohat bura hai,negative
+yeh movie bohat bura hai,negative
+yeh restaurant bohat bura hai,negative
+naya update bohat bura hai,negative
+mera order bohat bura hai,negative
+yeh phone faltu cheez hai,negative
+yeh service faltu cheez hai,negative
+yeh movie faltu cheez hai,negative
+yeh restaurant faltu cheez hai,negative
+naya update faltu cheez hai,negative
+mera order faltu cheez hai,negative
+yeh phone dobara kabhi nahi,negative
+yeh service dobara kabhi nahi,negative
+yeh movie dobara kabhi nahi,negative
+yeh restaurant dobara kabhi nahi,negative
+naya update dobara kabhi nahi,negative
+mera order dobara kabhi nahi,negative
+yeh phone aaj maine dekha,neutral
+yeh service aaj maine dekha,neutral
+yeh movie aaj maine dekha,neutral
+yeh restaurant aaj maine dekha,neutral
+naya update aaj maine dekha,neutral
+mera order aaj maine dekha,neutral
+yeh phone is ke baare mein,neutral
+yeh service is ke baare mein,neutral
+yeh movie is ke baare mein,neutral
+yeh restaurant is ke baare mein,neutral
+naya update is ke baare mein,neutral
+mera order is ke baare mein,neutral
+yeh phone main parh raha hun,neutral
+yeh service main parh raha hun,neutral
+yeh movie main parh raha hun,neutral
+yeh restaurant main parh raha hun,neutral
+naya update main parh raha hun,neutral
+mera order main parh raha hun,neutral
+yeh phone ek note hai,neutral
+yeh service ek note hai,neutral
+yeh movie ek note hai,neutral
+yeh restaurant ek note hai,neutral
+naya update ek note hai,neutral
+mera order ek note hai,neutral

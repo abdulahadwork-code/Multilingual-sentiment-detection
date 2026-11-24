@@ -1,0 +1,79 @@
+# Default experiment config: XLM-R base on English + Urdu (Arabic script) + Roman Urdu.
+# Every value here can be overridden from the CLI with --set key.sub=value
+
+seed: 42
+labels: [negative, neutral, positive]
+
+data:
+  processed_dir: data/processed
+  val_size: 0.1           # used only for sources that ship without a validation split
+  test_size: 0.1          # used only for sources that ship without a test split
+  min_chars: 3
+  max_chars: 2000         # very long reviews are truncated in characters before tokenisation
+  dedupe: true
+  sources:
+    - name: tweet_eval_en
+      hf_path: cardiffnlp/tweet_eval
+      hf_config: sentiment
+      language: en
+      text_column: text
+      label_column: label
+      label_map: {negative: negative, neutral: neutral, positive: positive}
+      max_per_split: {train: 20000, test: 4000}   # keep English from dominating the overall test score
+
+    - name: roman_urdu
+      hf_path: community-datasets/roman_urdu
+      language: ur-Latn
+      text_column: sentence
+      label_column: sentiment
+      label_map: {Positive: positive, Negative: negative, Neutral: neutral}
+
+    - name: urdu_news
+      hf_path: sepidmnorozy/Urdu_sentiment
+      language: ur
+      text_column: text
+      label_column: label
+      label_map: {"0": negative, "1": positive}
+
+    - name: urdu_imdb
+      hf_path: mirfan899/imdb_urdu_reviews
+      language: ur
+      text_column: sentence
+      label_column: sentiment
+      label_map: {positive: positive, negative: negative}
+      max_per_split: {train: 12000, validation: 1500, test: 1500}
+
+model:
+  name: FacebookAI/xlm-roberta-base   # use FacebookAI/xlm-roberta-large for +2-4 F1 if you have >=16GB GPU
+  max_length: 160
+  dropout: 0.1
+
+training:
+  output_dir: artifacts/xlmr-sentiment
+  epochs: 3
+  learning_rate: 2.0e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.06
+  train_batch_size: 32
+  eval_batch_size: 64
+  gradient_accumulation_steps: 1
+  class_weighting: true          # inverse-frequency loss weights (neutral is rare in Urdu sources)
+  label_smoothing: 0.0
+  early_stopping_patience: 2
+  fp16: auto                     # auto = on when CUDA is available
+  eval_steps: 500
+  logging_steps: 50
+  max_train_samples: null        # set to a small int for smoke tests
+  max_eval_samples: null
+
+analysis:
+  output_dir: reports/error_analysis
+  top_k_examples: 25
+  calibration_bins: 10
+
+serving:
+  model_dir: artifacts/xlmr-sentiment/best
+  max_batch_size: 64
+  max_text_chars: 5000
+  device: auto
+  quantize_cpu: false            # int8 dynamic quantisation: faster, but measurably distorted XLM-R confidences in testing - validate before enabling

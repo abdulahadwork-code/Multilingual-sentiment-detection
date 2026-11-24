@@ -1,0 +1,68 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "0. Streamlit app (http://localhost:8501)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "streamlit",
+      "args": ["run", "streamlit_app.py"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "1. Smoke test pipeline (CPU, ~2 min)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "xlmr_sentiment.cli",
+      "args": ["pipeline", "-c", "configs/smoke.yaml"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "2. Prepare data",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "xlmr_sentiment.cli",
+      "args": ["prepare-data"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "3. Train XLM-R (needs GPU)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "xlmr_sentiment.cli",
+      "args": ["train"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "4. Evaluate + error analysis",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "xlmr_sentiment.cli",
+      "args": ["analyze"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "5. Serve REST API (http://localhost:8000)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "xlmr_sentiment.cli",
+      "args": ["serve", "--port", "8000"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "6. Serve smoke model (demo without GPU training)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "xlmr_sentiment.cli",
+      "args": ["serve", "--port", "8000", "--model-dir", "artifacts/smoke/best"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ]
+}

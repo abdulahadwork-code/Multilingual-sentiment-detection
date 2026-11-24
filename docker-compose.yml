@@ -1,0 +1,15 @@
+services:
+  api:
+    build: .
+    image: xlmr-sentiment:latest
+    ports:
+      - "8000:8000"
+    environment:
+      MAX_BATCH_SIZE: "64"
+      QUANTIZE_CPU: "0"
+      
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 3g

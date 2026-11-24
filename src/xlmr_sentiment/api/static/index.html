@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multilingual Sentiment</title>
+<style>
+  :root { --bg:#f9f9f7; --card:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --line:#e4e3df; --accent:#2a78d6;
+          --neg:#d03b3b; --neu:#8a8983; --pos:#0ca30c; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0d0d0d; --card:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --line:#383835; --accent:#3987e5; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 system-ui, "Segoe UI", "Noto Nastaliq Urdu", sans-serif; }
+  main { max-width:760px; margin:0 auto; padding:32px 16px; }
+  h1 { font-size:22px; margin:0 0 4px; }
+  p.sub { color:var(--ink2); margin:0 0 20px; }
+  textarea { width:100%; min-height:120px; padding:12px; border:1px solid var(--line); border-radius:8px;
+             background:var(--card); color:var(--ink); font:inherit; resize:vertical; }
+  .row { display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 20px; align-items:center; }
+  button { background:var(--accent); color:#fff; border:0; border-radius:8px; padding:9px 16px; font:inherit; cursor:pointer; }
+  button.ghost { background:transparent; color:var(--ink2); border:1px solid var(--line); }
+  input { padding:8px; border:1px solid var(--line); border-radius:8px; background:var(--card); color:var(--ink); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; margin-bottom:10px; }
+  .text { margin-bottom:8px; unicode-bidi:plaintext; }
+  .meta { display:flex; gap:10px; align-items:center; color:var(--ink2); font-size:13px; flex-wrap:wrap; }
+  .pill { padding:2px 10px; border-radius:999px; color:#fff; font-weight:600; font-size:13px; }
+  .bar { display:flex; height:6px; border-radius:3px; overflow:hidden; margin-top:8px; gap:2px; }
+  .err { color:var(--neg); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Multilingual Sentiment</h1>
+  <p class="sub">Fine-tuned XLM-RoBERTa · English · اردو · Roman Urdu. One text per line.</p>
+  <textarea id="inp" dir="auto">The service was excellent, highly recommend!
+یہ فلم بالکل بکواس تھی، وقت ضائع ہوا
+khana theek tha, kuch khaas nahi</textarea>
+  <div class="row">
+    <button id="go">Analyse</button>
+    <button class="ghost" id="clear">Clear</button>
+    <input id="key" type="password" placeholder="API key (if required)" autocomplete="off">
+  </div>
+  <div id="out"></div>
+</main>
+<script>
+const COLORS = { negative: "var(--neg)", neutral: "var(--neu)", positive: "var(--pos)" };
+const LANG = { en: "English", ur: "Urdu", "ur-Latn": "Roman Urdu", unknown: "unknown" };
+const out = document.getElementById("out");
+function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+async function run() {
+  const texts = document.getElementById("inp").value.split("\n").map(s => s.trim()).filter(Boolean);
+  out.replaceChildren();
+  if (!texts.length) return;
+  const headers = { "Content-Type": "application/json" };
+  const key = document.getElementById("key").value; if (key) headers["X-API-Key"] = key;
+  try {
+    const r = await fetch("/v1/predict", { method: "POST", headers, body: JSON.stringify({ texts }) });
+    const j = await r.json();
+    if (!r.ok) throw new Error(typeof j.detail === "string" ? j.detail : JSON.stringify(j.detail));
+    for (const p of j.predictions) {
+      const c = el("div", "card");
+      const t = el("div", "text", p.text); t.dir = "auto"; c.append(t);
+      const m = el("div", "meta");
+      const pill = el("span", "pill", p.label); pill.style.background = COLORS[p.label] || "var(--accent)";
+      m.append(pill, el("span", null, `${(p.confidence * 100).toFixed(1)}% confident`),
+               el("span", null, `· ${LANG[p.language] || p.language}${p.code_mixed ? " (code-mixed)" : ""}`));
+      c.append(m);
+      const bar = el("div", "bar");
+      for (const [lbl, s] of Object.entries(p.scores)) {
+        const seg = el("div"); seg.style.width = `${s * 100}%`; seg.style.background = COLORS[lbl] || "var(--accent)";
+        seg.title = `${lbl}: ${(s * 100).toFixed(1)}%`; bar.append(seg);
+      }
+      c.append(bar); out.append(c);
+    }
+  } catch (e) { out.append(el("p", "err", "Error: " + e.message)); }
+}
+document.getElementById("go").onclick = run;
+document.getElementById("clear").onclick = () => { document.getElementById("inp").value = ""; out.replaceChildren(); };
+</script>
+</body>
+</html>
