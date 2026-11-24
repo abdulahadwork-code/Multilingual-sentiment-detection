@@ -1,5 +1,8 @@
 import pytest
+
 from xlmr_sentiment.inference import resolve_model_dir
+
+
 def test_local_dir_with_config_is_used(tmp_path):
     (tmp_path / "config.json").write_text("{}")
     assert resolve_model_dir(tmp_path) == tmp_path

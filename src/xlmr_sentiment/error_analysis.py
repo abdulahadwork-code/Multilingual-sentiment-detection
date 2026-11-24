@@ -1,17 +1,21 @@
 from __future__ import annotations
+
 import logging
 import re
 from pathlib import Path
+
 import matplotlib
+
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt  
-import numpy as np  
-import pandas as pd  
-from sklearn.metrics import f1_score  
-from .config import Config  
-from .metrics import classification_metrics, expected_calibration_error  
-from .text import has_negation, profile_script  
-from .utils import write_json  
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from sklearn.metrics import f1_score
+
+from .config import Config
+from .metrics import classification_metrics, expected_calibration_error
+from .text import has_negation, profile_script
+from .utils import write_json
 
 log = logging.getLogger(__name__)
 

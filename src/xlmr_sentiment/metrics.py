@@ -1,7 +1,10 @@
 from __future__ import annotations
+
 from collections.abc import Sequence
+
 import numpy as np
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, f1_score
+
 
 def softmax(logits: np.ndarray) -> np.ndarray:
     z = logits - logits.max(axis=-1, keepdims=True)

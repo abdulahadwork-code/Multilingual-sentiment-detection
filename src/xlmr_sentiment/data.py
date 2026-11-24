@@ -1,8 +1,11 @@
 from __future__ import annotations
+
 import logging
 from pathlib import Path
+
 import pandas as pd
 from sklearn.model_selection import train_test_split
+
 from .config import Config, SourceConfig
 from .text import normalize
 from .utils import write_json

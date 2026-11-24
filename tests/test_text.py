@@ -1,5 +1,7 @@
 import pytest
+
 from xlmr_sentiment.text import has_negation, normalize, profile_script
+
 
 def test_urdu_character_unification():
     assert normalize("كيا هے") == "کیا ہے"

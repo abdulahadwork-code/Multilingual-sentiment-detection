@@ -1,10 +1,12 @@
 from __future__ import annotations
+
 import argparse
 import json
 import logging
 import os
 import sys
 from pathlib import Path
+
 from .config import load_config
 from .utils import setup_logging
 

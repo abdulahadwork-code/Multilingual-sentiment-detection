@@ -1,8 +1,11 @@
 from dataclasses import dataclass
+
 import pytest
 from fastapi.testclient import TestClient
+
 from xlmr_sentiment.api.app import Settings, create_app
 from xlmr_sentiment.text import profile_script
+
 
 @dataclass
 class _Pred:

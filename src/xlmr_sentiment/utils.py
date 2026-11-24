@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 import json
 import logging
 import os
@@ -6,7 +7,9 @@ import random
 import sys
 from pathlib import Path
 from typing import Any
+
 import numpy as np
+
 
 def setup_logging(level: str | None = None, json_logs: bool | None = None) -> None:
     level = (level or os.getenv("LOG_LEVEL", "INFO")).upper()
