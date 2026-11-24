@@ -8,4 +8,4 @@ data/smoke/
 artifacts/
 reports/smoke_analysis/
 .streamlit/secrets.toml
-PROJECT_GUIDE.md
+
